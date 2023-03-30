@@ -11,9 +11,9 @@
 
 CayenneLPP lpp(200);
 
-//--------------------------------------
-//- SBR: lora-wrist1 (sin I Indicador):
-//--------------------------------------
+//-----------------------------------------
+//- SBR: lora-wrist1 (C2 sin I Indicador):
+//-----------------------------------------
 /*
 // Chose LSB mode on the console and then copy it here.
 static const u1_t PROGMEM APPEUI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -23,9 +23,9 @@ static const u1_t PROGMEM DEVEUI[8] = {0xC2, 0xB4, 0x05, 0xD0, 0x7E, 0xD5, 0xB3,
 static const u1_t PROGMEM APPKEY[16] = {0x47, 0x8E, 0xC5, 0xD0, 0xFF, 0x8D, 0x1B, 0x2C, 0xF2, 0x98, 0x5A, 0xAB, 0xA6, 0x94, 0xA0, 0xB5};
 */
 
-//--------------------------------------
-//- SBR: lora-wrist2 (con I Indicador):
-//--------------------------------------
+//-----------------------------------------
+//- SBR: lora-wrist2 (45 con I Indicador):
+//-----------------------------------------
 /*
 // Chose LSB mode on the console and then copy it here.
 static const u1_t PROGMEM APPEUI[8] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -38,19 +38,18 @@ static const u1_t PROGMEM APPKEY[16] = {0xF3, 0x56, 0x9C, 0x9D, 0x86, 0x3F, 0x71
 //--------------------------------------
 //- SBR: lora-wrist2 (72):
 //--------------------------------------
+/*
 static const u1_t PROGMEM APPEUI[8] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 static const u1_t PROGMEM DEVEUI[8] = {0x72, 0xC1, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
 static const u1_t PROGMEM APPKEY[16] = {0x4E, 0x05, 0x70, 0xE9, 0x36, 0x53, 0x78, 0x20, 0x03, 0xF4, 0x86, 0x91, 0xFA, 0x90, 0x1C, 0x3D};
+*/
 
 //--------------------------------------
-//- SBR: lora-wrist2 (con I Indicador):
+//- SBR: lora-wrist2 (70):
 //--------------------------------------
-/*
-// Chose LSB mode on the console and then copy it here.
 static const u1_t PROGMEM APPEUI[8] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 static const u1_t PROGMEM DEVEUI[8] = {0x70, 0xC1, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
 static const u1_t PROGMEM APPKEY[16] = {0x4E, 0x05, 0x70, 0xE9, 0x36, 0x53, 0x78, 0x20, 0x03, 0xF4, 0x86, 0x91, 0xFA, 0x90, 0x1C, 0x3D};
-*/
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
