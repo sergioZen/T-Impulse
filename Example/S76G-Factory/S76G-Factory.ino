@@ -46,6 +46,8 @@
 #define SSD1306_ADDR              0x3c
 #define ICM20948_ADDR             0x69
 #define ICM20648_ADDR             0x68
+#define ICM20948_INT_PIN          PB1
+#define AD0_VAL 0
 
 void func_gps(void);
 void func_accel(void);
@@ -65,7 +67,7 @@ HardwareSerial gpsPort(GPS_RX_PIN, GPS_TX_PIN);
 ICM_20948_I2C imu;
 STM32RTC &rtc = STM32RTC::getInstance();
 
-static uint8_t func_index_max = 5;
+static uint8_t func_index_max = 9;
 typedef void (*funcCallBackTypedef)(void);
 funcCallBackTypedef LilyGoCallBack[] = {func_rtc,          func_lora_sender,
                                         func_lora_reciver, func_gps,
@@ -545,7 +547,11 @@ void func_gps(void) {
  *
  */
 bool ICM20948_Init(void) {
-  imu.begin();
+
+  //imu.begin();
+  imu.begin(Wire, ICM20948_ADDR, ICM20948_INT_PIN);
+
+  imu.enableDebugging();
   if (imu.status != ICM_20948_Stat_Ok) {
     Serial.println("setupSensor FAIL");
     return false;
@@ -569,6 +575,9 @@ void ICM20948_Sleep(void) {
  *
  */
 void func_accel(void) {
+
+  ICM20948_Init();
+
   if (millis() - Millis > 100) {
     if (imu.dataReady()) {
       imu.getAGMT();
@@ -597,6 +606,9 @@ void func_accel(void) {
 }
 
 void func_accel2(void) {
+
+  ICM20948_Init();
+
   if (imu.dataReady()) {
     imu.getAGMT();
     u8g2.clearBuffer();
