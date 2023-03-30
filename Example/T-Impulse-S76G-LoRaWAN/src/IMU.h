@@ -8,5 +8,6 @@ extern bool is_inited_imu;
 extern ICM_20948_I2C *imu;
 
 void imu_init(void);
+void imu_loop(void);
 
 #endif /* __IMU_H__ */

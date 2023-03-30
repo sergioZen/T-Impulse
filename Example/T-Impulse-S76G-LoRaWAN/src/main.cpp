@@ -59,4 +59,7 @@ void loop()
     loopLMIC();
     bat_loop();
     gps_loop();
+    /*
+    imu_loop();
+    */
 }

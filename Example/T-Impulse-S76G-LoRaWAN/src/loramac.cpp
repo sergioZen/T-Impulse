@@ -11,12 +11,27 @@
 
 CayenneLPP lpp(200);
 
+//--------------------------------------
+//- SBR: lora-wrist1 (sin I Indicador):
+//--------------------------------------
+/*
 // Chose LSB mode on the console and then copy it here.
 static const u1_t PROGMEM APPEUI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-// LSB mode
-static const u1_t PROGMEM DEVEUI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-// MSB mode
-static const u1_t PROGMEM APPKEY[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+// LSB mode (msb: 70B3D57ED005B4C2)
+static const u1_t PROGMEM DEVEUI[8] = {0xC2, 0xB4, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
+// MSB mode (msb: 478EC5D0FF8D1B2CF2985AABA694A0B5)
+static const u1_t PROGMEM APPKEY[16] = {0x47, 0x8E, 0xC5, 0xD0, 0xFF, 0x8D, 0x1B, 0x2C, 0xF2, 0x98, 0x5A, 0xAB, 0xA6, 0x94, 0xA0, 0xB5};
+*/
+
+//--------------------------------------
+//- SBR: lora-wrist2 (con I Indicador):
+//--------------------------------------
+// Chose LSB mode on the console and then copy it here.
+static const u1_t PROGMEM APPEUI[8] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+// LSB mode (msb: 70B3D57ED005B745)
+static const u1_t PROGMEM DEVEUI[8] = {0x45, 0xB7, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
+// MSB mode (msb: 478EC5D0FF8D1B2CF2985AABA694A0B5)
+static const u1_t PROGMEM APPKEY[16] = {0xF3, 0x56, 0x9C, 0x9D, 0x86, 0x3F, 0x71, 0x41, 0x2B, 0xCE, 0xCB, 0xB7, 0x13, 0x20, 0x0D, 0xB2};
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
@@ -38,16 +53,25 @@ void printVariables()
 {
     lpp.reset();
 
-    if (gps->location.isUpdated() && gps->altitude.isUpdated() && gps->satellites.isUpdated())
-    {
+    //if (gps->location.isUpdated() && gps->altitude.isUpdated() && gps->satellites.isUpdated())
+    //{
         double gps_lat = gps->location.lat();
         double gps_lng = gps->location.lng();
         double gps_alt = gps->altitude.meters();
         lpp.addGPS(3, (float)gps_lat, (float)gps_lng, (float)gps_alt);
 
         uint32_t Value = gps->satellites.value();
-        lpp.addGenericSensor(5, Value);
+        //lpp.addGenericSensor(5, Value);
+        //SBR:
+        lpp.addDigitalInput(5, Value);
+/*        
+      Serial.printf("GPS data received Ok!");
     }
+    else
+    {
+        Serial.printf("GPS waiting for conection...");
+    }
+*/    
 
     if (imu->dataReady() && is_inited_imu)
     {
@@ -63,6 +87,9 @@ void printVariables()
         float Gyr_z = imu->gyrZ();
         lpp.addGyrometer(7, Gyr_x, Gyr_y, Gyr_z);
     }
+
+    Serial.printf("is_inited_imu : %i\n", is_inited_imu);
+
     float batt_lvl = float((Volt * 3.3 * 2) / 4096);
     Serial.printf("BatteryVol : %f\n", batt_lvl);
     lpp.addAnalogInput(8, batt_lvl);
@@ -87,7 +114,7 @@ void do_send(osjob_t *j)
 {
     if (joinStatus == EV_JOINING)
     {
-        Serial.println(F("Not joined yet"));
+        Serial.println(F("Not joined yet S76G"));
         // Check if there is not a current TX/RX job running
         os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
     }
@@ -149,8 +176,8 @@ void onEvent(ev_t ev)
         os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
         break;
     case EV_JOINING:
-        Serial.println(F("EV_JOINING: -> Joining..."));
-        lora_msg = "OTAA joining....";
+        Serial.println(F("EV_JOINING: -> Joining S76G Lorawan..."));
+        lora_msg = "OTAA S76G joining Lorawan msg....";
         joinStatus = EV_JOINING;
 
         if (u8g2)
@@ -163,12 +190,12 @@ void onEvent(ev_t ev)
         break;
     case EV_JOIN_FAILED:
         Serial.println(F("EV_JOIN_FAILED: -> Joining failed"));
-        lora_msg = "OTAA Joining failed";
+        lora_msg = "OTAA 5 Joining failed";
 
         if (u8g2)
         {
             u8g2->clearBuffer();
-            u8g2->drawStr(0, 12, "OTAA joining failed");
+            u8g2->drawStr(0, 12, "OTAA 6 joining failed");
             u8g2->sendBuffer();
         }
 
