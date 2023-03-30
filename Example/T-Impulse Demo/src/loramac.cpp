@@ -3,14 +3,27 @@
 
 CayenneLPP lpp(100);
 
+//--------------------------------------
+//- SBR: lora-wrist1 (sin I Indicador):
+//--------------------------------------
+/*
 // Chose LSB mode on the console and then copy it here.
 static const u1_t PROGMEM APPEUI[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-// LSB mode
-static const u1_t PROGMEM DEVEUI[8] = {0x84, 0x79, 0x04, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
-// static const u1_t PROGMEM DEVEUI[8] = {0x42, 0x7B, 0x04, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
-//  MSB mode
-static const u1_t PROGMEM APPKEY[16] = {0x24, 0xCA, 0xA6, 0x1F, 0x73, 0xC2, 0x1B, 0x69, 0xBC, 0xDF, 0xDE, 0xBC, 0x22, 0x26, 0x5D, 0x69};
-// static const u1_t PROGMEM APPKEY[16] = {0x6C, 0x76, 0xB4, 0x47, 0xAD, 0x0E, 0x21, 0x8F, 0x87, 0x4D, 0x87, 0x16, 0x14, 0xAA, 0xF3, 0x3C};
+// LSB mode (msb: 70B3D57ED005B4C2)
+static const u1_t PROGMEM DEVEUI[8] = {0xC2, 0xB4, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
+// MSB mode (msb: 478EC5D0FF8D1B2CF2985AABA694A0B5)
+static const u1_t PROGMEM APPKEY[16] = {0x47, 0x8E, 0xC5, 0xD0, 0xFF, 0x8D, 0x1B, 0x2C, 0xF2, 0x98, 0x5A, 0xAB, 0xA6, 0x94, 0xA0, 0xB5};
+*/
+
+//--------------------------------------
+//- SBR: lora-wrist2 (con I Indicador):
+//--------------------------------------
+// Chose LSB mode on the console and then copy it here.
+static const u1_t PROGMEM APPEUI[8] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+// LSB mode (msb: 70B3D57ED005B745)
+static const u1_t PROGMEM DEVEUI[8] = {0x45, 0xB7, 0x05, 0xD0, 0x7E, 0xD5, 0xB3, 0x70};
+// MSB mode (msb: 478EC5D0FF8D1B2CF2985AABA694A0B5)
+static const u1_t PROGMEM APPKEY[16] = {0xF3, 0x56, 0x9C, 0x9D, 0x86, 0x3F, 0x71, 0x41, 0x2B, 0xCE, 0xCB, 0xB7, 0x13, 0x20, 0x0D, 0xB2};
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
@@ -146,18 +159,18 @@ void onEvent(ev_t ev)
         break;
     case EV_JOINING:
         Serial.println(F("EV_JOINING: -> Joining..."));
-        lora_msg = "OTAA joining....";
+        lora_msg = "OTAA 1 joining....";
         joinStatus = EV_JOINING;
 
-        snprintf(buf, sizeof(buf), "[%lu]OTAA joining....", millis() / 1000);
+        snprintf(buf, sizeof(buf), "[%lu]OTAA 2 joining....", millis() / 1000);
         Title_Commit(buf);
 
         break;
     case EV_JOIN_FAILED:
         Serial.println(F("EV_JOIN_FAILED: -> Joining failed"));
-        lora_msg = "OTAA Joining failed";
+        lora_msg = "OTAA 3 Joining failed";
 
-        snprintf(buf, sizeof(buf), "[%lu]OTAA joining failed", millis() / 1000);
+        snprintf(buf, sizeof(buf), "[%lu]OTAA 4 joining failed", millis() / 1000);
         Title_Commit(buf);
 
         break;

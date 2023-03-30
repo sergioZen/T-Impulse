@@ -37,6 +37,7 @@
 // ICM20948
 #define ICM20948_ADDR 0x69
 #define ICM20948_INT_PIN PB1
+#define ICM20648_ADDR 0x68
 
 #define PWR_1_8V_PIN PB0 
 #define PWR_GPS_PIN PA3 
